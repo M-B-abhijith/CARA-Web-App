@@ -15,7 +15,6 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      // Replace with your backend API endpoint
       const response = await axios.post('http://localhost:5000/api/v1/auth/login', { username, password });
 
       if (response.status === 200) {
@@ -25,7 +24,6 @@ function Login() {
     } catch (error) {
       console.error('Login failed', error);
 
-      // Show the error message to the user
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message || 'Something went wrong. Please try again.');
       } else {

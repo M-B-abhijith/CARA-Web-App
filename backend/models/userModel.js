@@ -4,49 +4,29 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, "Please add username"],
+      required: [true, "Please add a username"],
       unique: true,
       trim: true,
     },
     email: {
       type: String,
-      required: [true, "Please add email"],
+      required: [true, "Please add an email"],
       unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "Please add password"],
-      minlength: [6, "Password must be at least 6 characters long"],
-      maxlength: [64, "Password cannot exceed 64 characters"],
+      required: [true, "Please add a password"],
+      min: 6,
+      max: 64,
     },
-    quizA: {
-      academicMarks: {
-        type: Number,
-        min: 0,
-        max: 100,
-        default: null, // Allows null until the quiz is taken
-      },
+    profile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Profile',  // Reference to the Profile schema
     },
-    quizB: {
-      personalTraits: [
-        {
-          question: { type: String },
-          answer: { type: String },
-        },
-      ],
-      default: [], // Empty array until the quiz is taken
-    },
-    careerOptions: {
-      type: [String], // List of possible career suggestions
-      default: [], // Empty array until results are generated
-    },
-    roadmap: {
-      type: String, // URL or description of the selected roadmap
-      default: null,
-    },
+    // Add additional fields if necessary
   },
-  { timestamps: true } // Automatically adds createdAt and updatedAt
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("User", userSchema);
