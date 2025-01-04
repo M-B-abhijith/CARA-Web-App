@@ -20,8 +20,8 @@ function Login() {
 
       if (response.status === 200) {
         localStorage.setItem('authToken', response.data.token);
-        
-        navigate('/choosingpage'); // Redirect after successful login
+        window.location.reload(); // Refresh the navbar
+        navigate('/choosingpage');
       }
     } catch (error) {
       console.error('Login failed', error);
