@@ -20,7 +20,6 @@ function Login() {
 
       if (response.status === 200) {
         localStorage.setItem('authToken', response.data.token);
-        window.location.reload(); // Refresh the navbar
         navigate('/choosingpage');
       }
     } catch (error) {
