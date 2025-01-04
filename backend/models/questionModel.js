@@ -2,55 +2,14 @@ const mongoose = require("mongoose");
 
 const questionnaireSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',  // Reference to the User schema
-      required: true,
+    questionText: {
+      type: String,
+      required: true,  // The actual question text
     },
-    marks: {
-      subject1: {
-        type: Number,
-        required: true,
-      },
-      subject2: {
-        type: Number,
-        required: true,
-      },
-      subject3: {
-        type: Number,
-        required: true,
-      },
-      subject4: {
-        type: Number,
-        required: true,
-      },
-      subject5: {
-        type: Number,
-        required: true,
-      },
-    },
-    mcqResponses: [
+    options: [
       {
-        question: {
-          type: String,
-          required: true,
-        },
-        selectedOption: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
-    predictedCareers: [
-      {
-        career: {
-          type: String,
-          required: true,
-        },
-        probability: {
-          type: Number,
-          required: true,
-        },
+        type: String,
+        required: true,  // The possible options for the question
       },
     ],
   },

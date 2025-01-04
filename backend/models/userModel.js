@@ -24,7 +24,18 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Profile',  // Reference to the Profile schema
     },
-    // Add additional fields if necessary
+    possibleRoles: [
+      {
+        role: {
+          type: String,
+          required: true,
+        },
+        probability: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

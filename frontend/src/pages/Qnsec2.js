@@ -1,90 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Qnsec2.css";
 import { Radio, RadioGroup, FormControlLabel, FormControl, Button } from "@mui/material";
+import { questions } from '../constants/questionsData'; // Importing the questions data
+import { useNavigate } from 'react-router-dom';
 
 function QuestionnairSec2() {
+  const navigate = useNavigate();
+  const [answers, setAnswers] = useState(
+    questions.reduce((acc, question, index) => {
+      acc[`question-${index}`] = ''; // Initialize each question's answer as an empty string
+      return acc;
+    }, {})
+  );
+
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Handle change in radio buttons
+  const handleRadioChange = (event, questionIndex) => {
+    setAnswers({
+      ...answers,
+      [`question-${questionIndex}`]: event.target.value,
+    });
+  };
+
+  // Handle submit button click
+  const handleSubmit = () => {
+    // Check if all fields are filled
+    const allFieldsFilled = Object.values(answers).every((answer) => answer !== '');
+    if (!allFieldsFilled) {
+      setErrorMessage('Please answer all questions before submitting.');
+      return;
+    }
+
+    // Save answers to localStorage
+    localStorage.setItem('personalityAnswers', JSON.stringify(answers));
+
+    console.log(localStorage.getItem('personalityAnswers'));
+
+
+    // Navigate to the results page
+    navigate('/resultspage');
+  };
+
   return (
     <div className="q2-container">
       <div className="q2-card">
         <h2>Questionnaire Sec 2</h2>
         <h1>Personality Traits Questions</h1>
 
-        {/* Questions */}
-        {[1, 2, 3, 4].map((questionNumber) => (
-          <div className="q2-question-box" key={questionNumber}>
+        {/* Map through the questions data */}
+        {questions.map((question, index) => (
+          <div className="q2-question-box" key={index}>
             <p className="q2-question-title">
-              {questionNumber}. How much friendly are you?
+              {index + 1}. {question.questionText}
             </p>
             <div className="radio-group-container">
-
               <FormControl component="fieldset">
-                <RadioGroup aria-label={`question-${questionNumber}`} name={`question-${questionNumber}`}>
-                  <FormControlLabel value="Not at all" control={<Radio sx={{
-                    color: "purple", // Unchecked color
-                    "&.Mui-checked": {
-                      color: "purple", // Checked color
-                    },
-                  }} />} label="Not at all" sx={{
-                    backgroundColor: "#f5f5f5",
-                    width: "100%",
-                    borderRadius: "4px",
-                    padding: "10px",
-                    marginBottom: "5px",
-                    color: "white",
-                    fontWeight: "bold",
-                  }} />
-                  <FormControlLabel value="Somewhat" control={<Radio sx={{
-                    color: "purple", // Unchecked color
-                    "&.Mui-checked": {
-                      color: "purple", // Checked color
-                    },
-                  }} />} label="Somewhat" sx={{
-                    backgroundColor: "#f5f5f5",
-                    width: "100%",
-                    borderRadius: "4px",
-                    padding: "10px",
-                    marginBottom: "5px",
-                    color: "white",
-                    fontWeight: "bold",
-                  }} />
-                  <FormControlLabel value="Friendly" control={<Radio sx={{
-                    color: "purple", // Unchecked color
-                    "&.Mui-checked": {
-                      color: "purple", // Checked color
-                    },
-                  }} />} label="Friendly" sx={{
-                    backgroundColor: "#f5f5f5",
-                    width: "100%",
-                    borderRadius: "4px",
-                    padding: "10px",
-                    marginBottom: "5px",
-                    color: "white",
-                    fontWeight: "bold",
-                  }} />
-                  <FormControlLabel value="Very Friendly" control={<Radio sx={{
-                    color: "purple", // Unchecked color
-                    "&.Mui-checked": {
-                      color: "purple", // Checked color
-                    },
-                  }} />} label="Very Friendly" sx={{
-                    backgroundColor: "#f5f5f5",
-                    width: "100%",
-                    borderRadius: "4px",
-                    padding: "10px",
-                    marginBottom: "5px",
-                    color: "white",
-                    fontWeight: "bold",
-                  }} />
+                <RadioGroup
+                  aria-label={`question-${index}`}
+                  name={`question-${index}`}
+                  value={answers[`question-${index}`]}
+                  onChange={(event) => handleRadioChange(event, index)}
+                >
+                  {/* Map through the options for the current question */}
+                  {question.options.map((option, i) => (
+                    <FormControlLabel
+                      key={i}
+                      value={option}
+                      control={
+                        <Radio
+                          sx={{
+                            color: "purple",
+                            "&.Mui-checked": {
+                              color: "purple",
+                            },
+                          }}
+                        />
+                      }
+                      label={option}
+                      sx={{
+                        backgroundColor: "#f5f5f5",
+                        width: "100%",
+                        borderRadius: "4px",
+                        padding: "10px",
+                        marginBottom: "5px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    />
+                  ))}
                 </RadioGroup>
               </FormControl>
             </div>
-
           </div>
         ))}
+
+        {/* Display error message if not all questions are answered */}
+        {errorMessage && <div style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</div>}
 
         <Button
           variant="contained"
           sx={{ textTransform: "none", marginTop: "20px" }}
+          onClick={handleSubmit}
         >
           Submit
         </Button>
