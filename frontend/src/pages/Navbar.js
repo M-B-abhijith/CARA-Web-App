@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Box, IconButton, Menu, MenuItem, Avatar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
@@ -13,6 +13,7 @@ function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { loggedIn, logout } = useAuth(); // Get login state and logout function from context
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current route location
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,6 +44,9 @@ function Navbar() {
     logout();
     navigate('/login'); // Redirect to login page after logout
   };
+
+  // Define pages where the UserButton should not appear
+  const noUserButtonPages = ['/', '/login', '/signup'];
 
   return (
     <AppBar position="static" style={styles.appBar}>
@@ -93,8 +97,8 @@ function Navbar() {
         {/* Empty space for desktop */}
         {!isMobile && <Box style={styles.emptySpace} />}
 
-        {/* User Profile Button and Dropdown (Visible after login) */}
-        {loggedIn && (
+        {/* Conditionally render User Profile Button and Dropdown */}
+        {!noUserButtonPages.includes(location.pathname) && loggedIn && (
           <Box style={styles.userProfile}>
             <IconButton onClick={handleMenuOpenUser} color="inherit">
               <Avatar style={styles.avatar} />
