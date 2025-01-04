@@ -1,23 +1,48 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const connectDB = require("./config/db");
 
+// Load environment variables
+dotenv.config();
+
+// Connect to MongoDB
+connectDB();
+
+// Initialize Express app
 const app = express();
-const PORT = 5000;
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware configuration
+const corsOptions = {
+  origin: process.env.REACT_APP_WEB_ORIGIN, // Replace with your web app's origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allow additional methods if needed
+  credentials: true, // Allow cookies and credentials
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(morgan("dev"));
 
 // Routes
-app.post('/api/predict', (req, res) => {
-  const { data } = req.body;
+app.use("/api/v1/auth", require("./routes/userRoutes"));
 
-  // Placeholder for ML integration
-  const prediction = `Prediction for "${data}"`;
-  res.json({ prediction });
-});
+
+
+
+// Serve static files (for production)
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+  });
+}
+
+// Set up the server
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`.bgGreen.white);
 });

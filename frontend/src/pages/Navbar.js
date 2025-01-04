@@ -2,23 +2,17 @@ import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import { Box, IconButton, Menu, MenuItem } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Box, IconButton, Menu, MenuItem, Avatar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // Import the useAuth hook
 
 function Navbar() {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElMobile, setAnchorElMobile] = useState(null); // For mobile menu
+  const [anchorElUser, setAnchorElUser] = useState(null); // For user profile menu
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const navigate = useNavigate(); // Use navigate hook
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const { loggedIn, logout } = useAuth(); // Get login state and logout function from context
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,6 +23,27 @@ function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleMenuOpenMobile = (event) => {
+    setAnchorElMobile(event.currentTarget);
+  };
+
+  const handleMenuCloseMobile = () => {
+    setAnchorElMobile(null);
+  };
+
+  const handleMenuOpenUser = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleMenuCloseUser = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login'); // Redirect to login page after logout
+  };
+
   return (
     <AppBar position="static" style={styles.appBar}>
       <Toolbar style={styles.toolbar}>
@@ -38,65 +53,64 @@ function Navbar() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            onClick={handleMenuOpen}
+            onClick={handleMenuOpenMobile}
             style={styles.hamburger}
           >
-            <MenuIcon sx={{ fontSize: '35px' }} /> {/* Increase size of hamburger icon */}
+            <MenuIcon sx={{ fontSize: '35px' }} />
           </IconButton>
         )}
 
         {/* Logo */}
-        <Typography variant="h6" component="div" style={styles.logo} >
+        <Typography variant="h6" component="div" style={styles.logo}>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>CARA</Link>
         </Typography>
 
-        {/* Centered Navigation Links */}
+        {/* Centered Navigation Links (Visible only on Desktop) */}
         {!isMobile && (
           <Box style={styles.navLinks}>
-            <Link
-              to="/Aboutuspage"
-              style={styles.navLink}
-            >
-              About Us
-            </Link>
-            <Link
-              to="/Contactuspage"
-              style={styles.navLink}
-            >
-              Contact Us
-            </Link>
-            <Link
-              to="/Privacypolicypage"
-              style={styles.navLink}
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to="/Termspage"
-              style={styles.navLink}
-            >
-              Terms and Conditions
-            </Link>
+            <Link to="/Aboutuspage" style={styles.navLink}>About Us</Link>
+            <Link to="/Contactuspage" style={styles.navLink}>Contact Us</Link>
+            <Link to="/Privacypolicypage" style={styles.navLink}>Privacy Policy</Link>
+            <Link to="/Termspage" style={styles.navLink}>Terms and Conditions</Link>
           </Box>
         )}
 
         {/* Dropdown menu for mobile */}
         {isMobile && (
           <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
+            anchorEl={anchorElMobile}
+            open={Boolean(anchorElMobile)}
+            onClose={handleMenuCloseMobile}
             style={styles.menu}
           >
-            <MenuItem onClick={() => handleMenuClose()}><Link to="/Aboutuspage" style={{ textDecoration: 'none', color: 'inherit' }}>About us</Link></MenuItem>
-            <MenuItem onClick={() => handleMenuClose()}><Link to="/Contactuspage" style={{ textDecoration: 'none', color: 'inherit' }}>Contact us</Link></MenuItem>
-            <MenuItem onClick={() => handleMenuClose()}><Link to="/Privacypolicypage" style={{ textDecoration: 'none', color: 'inherit' }}>Privacy policy</Link></MenuItem>
-            <MenuItem onClick={() => handleMenuClose()}><Link to="/Termspage" style={{ textDecoration: 'none', color: 'inherit' }}>Terms and conditions</Link></MenuItem>
+            <MenuItem onClick={() => handleMenuCloseMobile()}><Link to="/Aboutuspage" style={{ textDecoration: 'none', color: 'inherit' }}>About us</Link></MenuItem>
+            <MenuItem onClick={() => handleMenuCloseMobile()}><Link to="/Contactuspage" style={{ textDecoration: 'none', color: 'inherit' }}>Contact us</Link></MenuItem>
+            <MenuItem onClick={() => handleMenuCloseMobile()}><Link to="/Privacypolicypage" style={{ textDecoration: 'none', color: 'inherit' }}>Privacy policy</Link></MenuItem>
+            <MenuItem onClick={() => handleMenuCloseMobile()}><Link to="/Termspage" style={{ textDecoration: 'none', color: 'inherit' }}>Terms and conditions</Link></MenuItem>
           </Menu>
         )}
 
         {/* Empty space for desktop */}
         {!isMobile && <Box style={styles.emptySpace} />}
+
+        {/* User Profile Button and Dropdown (Visible after login) */}
+        {loggedIn && (
+          <Box style={styles.userProfile}>
+            <IconButton onClick={handleMenuOpenUser} color="inherit">
+              <Avatar style={styles.avatar} />
+            </IconButton>
+
+            <Menu
+              anchorEl={anchorElUser}
+              open={Boolean(anchorElUser)}
+              onClose={handleMenuCloseUser}
+              style={styles.menu}
+            >
+              <MenuItem onClick={() => navigate('/profilepage')}>Profile</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );
@@ -134,12 +148,12 @@ const styles = {
     fontFamily: '"Mali", cursive',
     textDecoration: 'none',
     fontSize: '16px',
-    color: '#333', 
-    padding: '8px 16px', 
+    color: '#333',
+    padding: '8px 16px',
     '&:hover': {
-      backgroundColor: '#f1f1f1', 
-      borderRadius: '4px', 
-    }
+      backgroundColor: '#f1f1f1',
+      borderRadius: '4px',
+    },
   },
   emptySpace: {
     flex: 1,
@@ -149,6 +163,14 @@ const styles = {
   },
   menu: {
     top: '10px',
+  },
+  userProfile: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: '35px',
+    height: '35px',
   },
 };
 
