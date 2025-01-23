@@ -1,139 +1,148 @@
-import React from 'react';
-import './Profilepage.css';
-import Button from '@mui/material/Button';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import profilepicsample from '../assets/profilepicsample.png';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Button from "@mui/material/Button";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import profilepicsample from "../assets/profilepicsample.png";
+import "./Profilepage.css";
+import SetupProfilePrompt from "../components/SetupProfilePrompt";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-    const handleDownloadPDF = () => {
-        const profileDetails = document.querySelector('.profile-details');
-        const downloadButton = document.querySelector('.download-button-container');
+  const [profile, setProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-        // Hide the download button
-        downloadButton.style.display = 'none';
-
-        // Use html2canvas to capture the content as an image
-        html2canvas(profileDetails, { scale: 2 }).then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4'); // Create a new jsPDF instance
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            // Add the captured image to the PDF
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-            // Save the PDF with a specific filename
-            pdf.save('ProfilePage.pdf');
-
-            // Show the download button again
-            downloadButton.style.display = 'flex';
-        });
+  useEffect(() => {
+    const fetchProfile = async () => {
+      console.log("Inside useEffect, fetching data");
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/profilesetup/getprofile",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+        console.log(response.data);
+        setProfile(response.data.profile || null);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+        setProfile(null);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
+    fetchProfile();
+  }, []);
+
+  const handleCreateProfile = () => {
+    navigate("/create-profile");
+  };
+
+  const handleDownloadPDF = () => {
+    const profileDetails = document.querySelector(".profile-details");
+    const downloadButton = document.querySelector(".download-button-container");
+
+    downloadButton.style.display = "none";
+
+    html2canvas(profileDetails, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("ProfilePage.pdf");
+
+      downloadButton.style.display = "flex";
+    });
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!profile) {
     return (
-        <div className="profile-container">
-            <div className="profile-summary">
-                <div className="profile-details">
-                    <div className="profile-card">
-                        <div class="profile-image-container">
-                            <img className="profile-image" src={profilepicsample} alt="User" />
-                        </div>
-                        <div className="profileheaderdetails">
-                            <h2>M B Abhijith Nair</h2>
-                            <div className="anotherdiv2">
-                                <p style={{ fontWeight: '600' }}>BTech CSE Student @ RIT Kottayam</p>
-                                <div className="anotherdiv">
-                                    <p>mbabhijithnair090@gmail.com</p>
-                                    <p style={{ marginLeft: '15px' }}>8848409436</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr style={{}} />
-
-                    <h3>Profile Summary</h3>
-                    <p>
-                        A web developer is responsible for building and maintaining websites and web applications.
-                        They work on both the front end (client side) and back end (server side) of web development,
-                        ensuring functionality, performance, and an engaging user experience.
-                    </p>
-
-                    <h3 className="skillheading">Skills</h3>
-                    <div className="skills-section">
-                        <div>
-                            <h4>Languages:</h4>
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JS</span>
-                        </div>
-                        <div>
-                            <h4>Frameworks:</h4>
-                            <span>React</span>
-                            <span>Angular</span>
-                            <span>Vue</span>
-                            <span>Node</span>
-                            <span>Express</span>
-                        </div>
-                        <div>
-                            <h4>Tools:</h4>
-                            <span>Git</span>
-                            <span>Webpack</span>
-                            <span>Babel</span>
-                        </div>
-                        <div>
-                            <h4>Databases:</h4>
-                            <span>MySQL</span>
-                            <span>MongoDB</span>
-                        </div>
-                        <div>
-                            <h4>Other:</h4>
-                            <span>APIs</span>
-                            <span>RESTful Services</span>
-                            <span>GraphQL</span>
-                            <span>Docker</span>
-                        </div>
-                    </div>
-
-                    <h3>Projects</h3>
-                    <ul>
-                        <li>Progressive Web Apps (PWA): Offering mobile-like experiences on the web.</li>
-                        <li>WebAssembly: Faster execution of code in web browsers.</li>
-                        <li>AI in Web Development: Integration of AI to personalize user experience.</li>
-                        <li>
-                            No-Code/Low-Code Platforms: Allowing non-developers to create websites, reducing the demand
-                            for basic web development.
-                        </li>
-                    </ul>
-
-                    <h3>Education</h3>
-                    <ul>
-                        <li>BTech in Computer Science and Engineering</li>
-                        <li>Masters in Computer Science and Engineering</li>
-                    </ul>
-
-                    <h3>Achievements and Certification</h3>
-                    <ul>
-                        <li>Certified in AI and Web Development</li>
-                        <li>Certification in Full-Stack Development</li>
-                    </ul>
-
-                    <div className="download-button-container">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className="download-button"
-                            onClick={handleDownloadPDF}
-                        >
-                            Download
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div>
+        <SetupProfilePrompt onCreateProfile={handleCreateProfile} />
+      </div>
     );
+  }
+
+  return (
+    <div className="profile-container">
+      <div className="profile-summary">
+        <div className="profile-details">
+          <div className="profile-card">
+            <div className="profile-image-container">
+              <img className="profile-image" src={profilepicsample} alt="User" />
+            </div>
+            <div className="profileheaderdetails">
+              <h2>{profile.name || "N/A"}</h2>
+              <div className="anotherdiv2">
+                <p style={{ fontWeight: "600" }}>{profile.role || "N/A"}</p>
+                <div className="anotherdiv">
+                  <p>{profile.contact?.email || "Email not provided"}</p>
+                  <p style={{ marginLeft: "15px" }}>{profile.contact?.phone || "Phone not provided"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <h3>Profile Summary</h3>
+          <p>{profile.profileSummary || "No summary available"}</p>
+
+          <h3 className="skillheading">Skills</h3>
+          <div className="skills-section">
+            {["languages", "frameworks", "tools", "databases", "others"].map((category) => (
+              <div key={category}>
+                <h4>{category.charAt(0).toUpperCase() + category.slice(1)}:</h4>
+                <span>{profile.skills?.[category]?.join(", ") || "None listed"}</span>
+              </div>
+            ))}
+          </div>
+
+          <h3>Projects</h3>
+          <ul>
+            {profile.projects?.length > 0
+              ? profile.projects.map((project, index) => <li key={index}>{project}</li>)
+              : <li>No projects listed</li>}
+          </ul>
+
+          <h3>Education</h3>
+          <ul>
+            {profile.education?.length > 0
+              ? profile.education.map((edu, index) => <li key={index}>{edu}</li>)
+              : <li>No education details provided</li>}
+          </ul>
+
+          <h3>Achievements and Certifications</h3>
+          <ul>
+            {profile.achievementsAndCertifications?.length > 0
+              ? profile.achievementsAndCertifications.map((achievement, index) => <li key={index}>{achievement}</li>)
+              : <li>No achievements or certifications listed</li>}
+          </ul>
+
+          <div className="download-button-container">
+            <Button
+              variant="contained"
+              color="primary"
+              className="download-button"
+              onClick={handleDownloadPDF}
+            >
+              Download
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ProfilePage;

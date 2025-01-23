@@ -15,6 +15,7 @@ import Aboutuspage from './pages/Aboutuspage';
 import Privacypolicypage from './pages/Privacypolicypage';
 import Termspage from './pages/Termspage';
 import Contactuspage from './pages/Contactuspage';
+import ProfileForm from './pages/Profileformpage';
 
 const AppContent = () => {
   const location = useLocation(); // Get the current route location
@@ -42,6 +43,8 @@ const AppContent = () => {
         <Route path="/Privacypolicypage" element={<Privacypolicypage />} />
         <Route path="/Termspage" element={<Termspage />} />
         <Route path="/Contactuspage" element={<Contactuspage />} />
+        <Route path="/ProfileForm" element={<ProfileForm />} />
+
       </Routes>
     </>
   );

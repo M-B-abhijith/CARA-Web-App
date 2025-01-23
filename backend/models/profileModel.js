@@ -2,49 +2,71 @@ const mongoose = require("mongoose");
 
 const profileSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',  // Reference to the User schema
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,  // Assuming you're using ObjectId for user references
       required: true,
+      ref: "User",  // Make sure this matches your User model's name
+    },
+    name: {
+      type: String,
+      required: [true, "Please add a name"],
+      trim: true,
+    },
+    role: {
+      type: String,
+      required: [true, "Please add a role"],
+      trim: true,
+    },
+    contact: {
+      email: {
+        type: String,
+        required: [true, "Please add an email"],
+        trim: true,
+      },
+      phone: {
+        type: String,
+        required: [true, "Please add a phone number"],
+        trim: true,
+      },
     },
     profileSummary: {
       type: String,
-      trim: true,
-    },
-    description: {
-      type: String,
-      trim: true,
-      maxlength: 150,  // Limiting it to a small description (you can adjust this limit)
-    },
-    email: {
-      type: String,
-      required: [true, "Please add email"],
-      trim: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: [true, "Please add phone number"],
+      required: [true, "Please add a profile summary"],
       trim: true,
     },
     skills: {
-      languages: [String],
-      frameworks: [String],
-      tools: [String],
-      databases: [String],
-      others: [String],
+      languages: {
+        type: [String],
+        required: true,
+      },
+      frameworks: {
+        type: [String],
+        required: true,
+      },
+      tools: {
+        type: [String],
+        required: true,
+      },
+      databases: {
+        type: [String],
+        required: true,
+      },
+      others: {
+        type: [String],
+        required: true,
+      },
     },
-    projects: [String],  // List of projects as string points
+    projects: {
+      type: [String],
+      required: true,
+    },
     education: {
-      type: String,
-      trim: true,
-    },
-    achievements: {
       type: [String],
-      trim: true,
+      required: true,
     },
-    certifications: {
+    achievementsAndCertifications: {
       type: [String],
-      trim: true,
+      required: true,
     },
   },
   { timestamps: true }

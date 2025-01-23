@@ -26,6 +26,7 @@ app.use(morgan("dev"));
 
 // Routes
 app.use("/api/v1/auth", require("./routes/userRoutes"));
+app.use("/api/v1/profilesetup",require("./routes/profileRoutes"));
 
 
 
