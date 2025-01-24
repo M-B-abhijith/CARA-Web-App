@@ -98,13 +98,13 @@ const ProfileForm = ({ onSubmit }) => {
       if (response.status === 201) {  //ithu 200 matti 201 njan aakiyathu aanu
         alert("Profile created successfully!");
         // Optionally, call the onSubmit prop if you want to update the parent component
-        onSubmit(profileData); // Or use your own logic
+        // onSubmit(profileData); // Or use your own logic   //dont know why this was here i think this is making issue as even after successful it is not navigationg to profile
 
         navigate("/Profilepage"); // Replace "/profile-form" with your desired path
       }
     } catch (error) {
       console.error("Error submitting profile data:", error);
-      alert("There was an error creating the profile.");
+      alert("There was an error creating the profile."); 
     } finally {
       setIsSubmitting(false); // Reset submitting state
 

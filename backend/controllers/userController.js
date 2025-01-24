@@ -4,6 +4,9 @@ const userModel = require("../models/userModel");
 
 // Register Controller
 const registerController = async (req, res) => {
+
+
+  console.log("inside register controller");
   try {
     const { username, email, password } = req.body;
 
