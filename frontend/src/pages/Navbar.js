@@ -15,6 +15,11 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation(); // Get the current route location
 
+
+  // Get isAdmin status from localStorage
+  const isAdmin = localStorage.getItem('authToken') ? JSON.parse(atob(localStorage.getItem('authToken').split('.')[1])).isAdmin : false;
+
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -110,7 +115,7 @@ function Navbar() {
               onClose={handleMenuCloseUser}
               style={styles.menu}
             >
-              <MenuItem onClick={() => navigate('/profilepage')}>Profile</MenuItem>
+              <MenuItem onClick={() => navigate(isAdmin ? '/Dashboardpage' : '/profilepage')}>{isAdmin ? 'Dashboard' : 'Profile'}</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Box>
