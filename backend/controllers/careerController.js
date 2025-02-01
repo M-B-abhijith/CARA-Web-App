@@ -54,7 +54,8 @@ const fetchCareerController = async (req, res) => {
   
     try {
         // const career = await Career.findOne({ title: req.params.title });
-        let title='Web Developer';
+        // let title='Web Developer';
+        let title='Database Administrator';
         const career = await Career.findOne({ title });
 
 

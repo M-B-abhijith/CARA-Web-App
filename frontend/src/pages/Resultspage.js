@@ -12,7 +12,7 @@ function Resultspage() {
           <div className="career-text">
             <span>Web Developer (90%)</span>
           </div>
-          <Link to="/web-developer" className="career-link">
+          <Link to="/moreinfo" className="career-link">
             More info
           </Link>
         </div>

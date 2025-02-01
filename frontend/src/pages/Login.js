@@ -16,14 +16,20 @@ function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/v1/auth/login', { username, password });
-
+  
       if (response.status === 200) {
         localStorage.setItem('authToken', response.data.token);
-        navigate('/choosingpage');
+  
+        // Navigate based on role
+        if (response.data.isAdmin) {
+          navigate('/Dashboardpage'); // Redirect admin to the dashboard
+        } else {
+          navigate('/choosingpage'); // Redirect normal users to choosing page
+        }
       }
     } catch (error) {
       console.error('Login failed', error);
-
+  
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message || 'Something went wrong. Please try again.');
       } else {
@@ -32,6 +38,7 @@ function Login() {
       setOpen(true); // Open the Snackbar with the error message
     }
   };
+  
 
   // Close the Snackbar after 4 seconds
   const handleCloseSnackbar = () => {

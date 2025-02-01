@@ -17,6 +17,8 @@ import Termspage from './pages/Termspage';
 import Contactuspage from './pages/Contactuspage';
 import ProfileForm from './pages/Profileformpage';
 
+import Dashboardpage from './pages/Dashboardpage';
+
 const AppContent = () => {
   const location = useLocation(); // Get the current route location
 
@@ -44,6 +46,8 @@ const AppContent = () => {
         <Route path="/Termspage" element={<Termspage />} />
         <Route path="/Contactuspage" element={<Contactuspage />} />
         <Route path="/ProfileForm" element={<ProfileForm />} />
+        <Route path="/Dashboardpage" element={<Dashboardpage />} />
+
 
       </Routes>
     </>

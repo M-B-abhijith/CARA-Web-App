@@ -66,6 +66,62 @@ const registerController = async (req, res) => {
 };
 
 // Login Controller
+// const loginController = async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+
+//     // Validation
+//     if (!username || !password) {
+//       return res.status(400).send({
+//         success: false,
+//         message: "Username and password are required",
+//       });
+//     }
+
+//     // Find user
+//     const user = await userModel.findOne({ username });
+//     if (!user) {
+//       return res.status(404).send({
+//         success: false,
+//         message: "User not found",
+//       });
+//     }
+
+//     // Match password
+//     const isMatch = await comparePassword(password, user.password);
+//     if (!isMatch) {
+//       return res.status(400).send({
+//         success: false,
+//         message: "Invalid username or password",
+//       });
+//     }
+
+//     // Generate JWT token
+//     const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "7d",
+//     });
+
+//     return res.status(200).send({
+//       success: true,
+//       message: "Login successful",
+//       token,
+//       user,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).send({
+//       success: false,
+//       message: "Error in login API",
+//       error,
+//     });
+//   }
+// };
+
+
+
+//updated login controller with admin checking just for the feature in simple way
+
+
 const loginController = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -96,16 +152,24 @@ const loginController = async (req, res) => {
       });
     }
 
+    // Check if user is admin
+    const isAdmin = username === "admin" && password === "admin123";
+
     // Generate JWT token
-    const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = JWT.sign(
+      { _id: user._id, isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     return res.status(200).send({
       success: true,
       message: "Login successful",
       token,
       user,
+      isAdmin,
     });
   } catch (error) {
     console.error(error);
@@ -116,6 +180,7 @@ const loginController = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   registerController,
