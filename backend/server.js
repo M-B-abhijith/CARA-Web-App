@@ -28,6 +28,8 @@ app.use(morgan("dev"));
 app.use("/api/v1/auth", require("./routes/userRoutes"));
 app.use("/api/v1/profilesetup",require("./routes/profileRoutes"));
 app.use("/api/v1/careers",require("./routes/careerRoutes"));
+app.use("/api/v1/jobpost",require("./routes/jobpostRoutes"));
+
 
 
 

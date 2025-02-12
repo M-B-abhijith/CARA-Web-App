@@ -12,6 +12,10 @@ const Dashboardpage = () => {
     navigate('/CareerForm'); // Navigate to the qnsec1 page
   };
 
+  const handlejobpostClick = () => {
+    navigate('/jobformpage'); // Navigate to the qnsec1 page
+  };
+
   return (
     <div className="choosing-container">
       <div className="choosing-grid">
@@ -21,7 +25,7 @@ const Dashboardpage = () => {
           </div>
           <h2>Add Carreer</h2>
         </div>
-        <div className="choosing-card" > {/* Add onClick handler to the Quiz card */}
+        <div className="choosing-card" onClick={handlejobpostClick}> {/* Add onClick handler to the Quiz card */}
           <div className="choosing-icon">
             <img src={JobSeeker} alt="Quiz Icon" />
           </div>

@@ -17,7 +17,7 @@ import Termspage from './pages/Termspage';
 import Contactuspage from './pages/Contactuspage';
 import ProfileForm from './pages/Profileformpage';
 import CareerForm from './pages/Careerformpage';
-
+import JobFormPage from './pages/jobformpage';
 
 import Dashboardpage from './pages/Dashboardpage';
 
@@ -50,6 +50,7 @@ const AppContent = () => {
         <Route path="/ProfileForm" element={<ProfileForm />} />
         <Route path="/Dashboardpage" element={<Dashboardpage />} />
         <Route path="/CareerForm" element={< CareerForm/>} />
+        <Route path="/JobFormPage" element={< JobFormPage/>} />
 
 
 
