@@ -147,9 +147,6 @@
 
 // export default ProfilePage;
 
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
@@ -168,9 +165,14 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/profilesetup/getprofile", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
-        });
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/profilesetup/getprofile",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
         setProfile(response.data.profile || null);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -201,7 +203,8 @@ const ProfilePage = () => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (!profile) return <SetupProfilePrompt onCreateProfile={handleCreateProfile} />;
+  if (!profile)
+    return <SetupProfilePrompt onCreateProfile={handleCreateProfile} />;
 
   return (
     <div className="profile-container">
@@ -209,7 +212,11 @@ const ProfilePage = () => {
         <div className="profile-details">
           <div className="profile-card">
             <div className="profile-image-container">
-              <img className="profile-image" src={profilepicsample} alt="User" />
+              <img
+                className="profile-image"
+                src={profilepicsample}
+                alt="User"
+              />
             </div>
             <div className="profileheaderdetails">
               <h2>{profile.name || "N/A"}</h2>
@@ -217,13 +224,12 @@ const ProfilePage = () => {
                 <p style={{ fontWeight: "600" }}>{profile.role || "N/A"}</p>
                 <div className="anotherdiv">
                   <p>{profile.contact?.email || "Email not provided"}</p>
-                  <p style={{ marginLeft: "15px" }}>{profile.contact?.phone || "Phone not provided"}</p>
+                  <p style={{ marginLeft: "15px" }}>
+                    {profile.contact?.phone || "Phone not provided"}
+                  </p>
                 </div>
               </div>
             </div>
-
-
-            
           </div>
 
           <hr />
@@ -233,43 +239,73 @@ const ProfilePage = () => {
 
           <h3 className="skillheading">Skills</h3>
           <div className="skills-section">
-            {Object.keys(profile.skills || {}).map((category) => (
-              <div key={category}>
-                <h4>{category.charAt(0).toUpperCase() + category.slice(1)}:</h4>
-                <span>{profile.skills[category]?.join(", ") || "None listed"}</span>
-              </div>
-            ))}
-          </div>
+  {Object.keys(profile.skills || {}).map((category) => (
+    <div key={category}>
+      <h4>{category.charAt(0).toUpperCase() + category.slice(1)}:</h4>
+      <div>
+        {profile.skills[category]?.length > 0
+          ? profile.skills[category].map((skill, index) => (
+              <span 
+                key={index} 
+                style={{ color: "white", marginRight: "10px",marginTop:"25px" }}
+              >
+                {skill}
+              </span>
+            ))
+          : "None listed"}
+      </div>
+    </div>
+  ))}
+</div>
 
           <h3>Projects</h3>
           <ul>
-            {profile.projects?.length > 0
-              ? profile.projects.map((project, index) => (
-                  <li key={index}><strong>{project.title}</strong>: {project.description}</li>
-                ))
-              : <li>No projects listed</li>}
+            {profile.projects?.length > 0 ? (
+              profile.projects.map((project, index) => (
+                <li key={index}>
+                  <strong>{project.title}</strong>: {project.description}
+                </li>
+              ))
+            ) : (
+              <li>No projects listed</li>
+            )}
           </ul>
 
           <h3>Education</h3>
           <ul>
-            {profile.education?.length > 0
-              ? profile.education.map((edu, index) => (
-                  <li key={index}><strong>{edu.course}</strong> at {edu.institution} ({edu.year})</li>
-                ))
-              : <li>No education details provided</li>}
+            {profile.education?.length > 0 ? (
+              profile.education.map((edu, index) => (
+                <li key={index}>
+                  <strong>{edu.course}</strong> at {edu.institution} ({edu.year}
+                  )
+                </li>
+              ))
+            ) : (
+              <li>No education details provided</li>
+            )}
           </ul>
 
           <h3>Achievements</h3>
           <ul>
-            {profile.achievements?.length > 0
-              ? profile.achievements.map((achievement, index) => (
-                  <li key={index}><strong>{achievement.title}</strong>: {achievement.description}</li>
-                ))
-              : <li>No achievements listed</li>}
+            {profile.achievements?.length > 0 ? (
+              profile.achievements.map((achievement, index) => (
+                <li key={index}>
+                  <strong>{achievement.title}</strong>:{" "}
+                  {achievement.description}
+                </li>
+              ))
+            ) : (
+              <li>No achievements listed</li>
+            )}
           </ul>
 
           <div className="download-button-container">
-            <Button variant="contained" color="primary" className="download-button" onClick={handleDownloadPDF}>
+            <Button
+              variant="contained"
+              color="primary"
+              className="download-button"
+              onClick={handleDownloadPDF}
+            >
               Download
             </Button>
           </div>
