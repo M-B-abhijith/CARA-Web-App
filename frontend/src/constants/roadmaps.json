@@ -24,6 +24,11 @@
       "id": 5,
       "title": "Civil Engineer",
       "image": "JobSeeker.png"
+    },
+    {
+      "id": 6,
+      "title": "Mechanical Engineer",
+      "image": "JobSeeker.png"
     }
     
   ]
