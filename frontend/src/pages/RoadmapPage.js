@@ -8,6 +8,8 @@ const Roadmap = () => {
   const [spotlightImage, setSpotlightImage] = useState(null);
   const navigate = useNavigate();
 
+
+  
   const getImagePath = (imageName) => {
     try {
       return require(`../assets/${imageName}`);
