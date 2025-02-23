@@ -18,7 +18,7 @@ import Contactuspage from './pages/Contactuspage';
 import ProfileForm from './pages/Profileformpage';
 import CareerForm from './pages/Careerformpage';
 import JobFormPage from './pages/jobformpage';
-
+import RoadmapPage from './pages/RoadmapPage'
 import Dashboardpage from './pages/Dashboardpage';
 
 const AppContent = () => {
@@ -51,6 +51,8 @@ const AppContent = () => {
         <Route path="/Dashboardpage" element={<Dashboardpage />} />
         <Route path="/CareerForm" element={< CareerForm/>} />
         <Route path="/JobFormPage" element={< JobFormPage/>} />
+        <Route path="/RoadmapPage" element={< RoadmapPage/>} />
+
 
 
 

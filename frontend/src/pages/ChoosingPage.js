@@ -12,11 +12,15 @@ const ChoosingPage = () => {
     navigate('/qnsec1'); // Navigate to the qnsec1 page
   };
 
+  const handleRoadMapClick = () => {
+    navigate('/roadmappage'); // Navigate to the qnsec1 page
+  };
+
   return (
     <div className="choosing-container">
       <div className="choosing-grid">
         <div className="choosing-card">
-          <div className="choosing-icon">
+          <div className="choosing-icon" onClick={handleRoadMapClick}>
             <img src={roadmapIcon} alt="Road Map Icon" />
           </div>
           <h2>Road Map</h2>

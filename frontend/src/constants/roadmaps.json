@@ -1,0 +1,30 @@
+
+[
+    {
+      "id": 1,
+      "title": "Software Engineer",
+      "image": "JobSeeker.png"
+    },
+    {
+      "id": 2,
+      "title": "ML Engineer",
+      "image": "JobSeeker.png"
+    },
+    {
+      "id": 3,
+      "title": "Cloud Engineer",
+      "image": "JobSeeker.png"
+    },
+    {
+      "id": 4,
+      "title": "AI Engineer",
+      "image": "JobSeeker.png"
+    },
+    {
+      "id": 5,
+      "title": "Civil Engineer",
+      "image": "JobSeeker.png"
+    }
+    
+  ]
+  
