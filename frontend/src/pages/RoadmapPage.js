@@ -48,7 +48,10 @@ const Roadmap = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div> 
+
+
+      
 
       {/* Floating Image Modal (At the Top) */}
       {spotlightImage && (
