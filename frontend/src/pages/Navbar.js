@@ -115,8 +115,16 @@ function Navbar() {
               onClose={handleMenuCloseUser}
               style={styles.menu}
             >
-              <MenuItem onClick={() => navigate(isAdmin ? '/Dashboardpage' : '/profilepage')}>{isAdmin ? 'Dashboard' : 'Profile'}</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem onClick={() => navigate(isAdmin ? '/Dashboardpage' : '/choosingpage')}>
+  Dashboard
+</MenuItem>
+{!isAdmin && (
+  <MenuItem onClick={() => navigate('/profilepage')}>
+    Profile
+  </MenuItem>
+)}
+<MenuItem onClick={handleLogout}>Logout</MenuItem>
+
             </Menu>
           </Box>
         )}
