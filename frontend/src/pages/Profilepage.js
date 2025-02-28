@@ -156,6 +156,8 @@ import profilepicsample from "../assets/profilepicsample.png";
 import "./Profilepage.css";
 import SetupProfilePrompt from "../components/SetupProfilePrompt";
 import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
@@ -186,6 +188,10 @@ const ProfilePage = () => {
 
   const handleCreateProfile = () => navigate("/create-profile");
 
+  const handleEditProfile = () => {
+    navigate("/ProfileForm", { state: { profile } });
+  };
+
   const handleDownloadPDF = () => {
     const profileDetails = document.querySelector(".profile-details");
     const downloadButton = document.querySelector(".download-button-container");
@@ -210,6 +216,23 @@ const ProfilePage = () => {
     <div className="profile-container">
       <div className="profile-summary">
         <div className="profile-details">
+        <Button
+            variant="contained"
+            color="secondary"
+            className="edit-button"
+            onClick={handleEditProfile}
+            sx={{
+              position: "absolute",
+              top: { xs: "10%", sm: "12%", md: "13%" }, // Adjust top position for different screen sizes
+              right: { xs: "5%", sm: "10%", md: "23%" }, // Adjust right position accordingly
+              fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" }, // Responsive font size
+              padding: { xs: "5px 10px", sm: "8px 15px" }, // Adjust padding
+            }}
+          >
+            <EditIcon /> Edit
+          </Button>
+
+
           <div className="profile-card">
             <div className="profile-image-container">
               <img
