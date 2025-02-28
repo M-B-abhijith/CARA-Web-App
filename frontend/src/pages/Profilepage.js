@@ -192,21 +192,29 @@ const ProfilePage = () => {
     navigate("/ProfileForm", { state: { profile } });
   };
 
-  const handleDownloadPDF = () => {
-    const profileDetails = document.querySelector(".profile-details");
-    const downloadButton = document.querySelector(".download-button-container");
+const handleDownloadPDF = () => {
+  const profileDetails = document.querySelector(".profile-details");
+  const downloadButton = document.querySelector(".download-button-container");
+  const editButton = document.querySelector(".edit-button");
 
-    downloadButton.style.display = "none";
-    html2canvas(profileDetails, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("ProfilePage.pdf");
-      downloadButton.style.display = "flex";
-    });
-  };
+  // Hide the buttons before capturing the PDF
+  downloadButton.style.display = "none";
+  editButton.style.display = "none";
+
+  html2canvas(profileDetails, { scale: 2 }).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("ProfilePage.pdf");
+
+    // Restore button visibility after capturing
+    downloadButton.style.display = "flex";
+    editButton.style.display = "block";
+  });
+};
 
   if (isLoading) return <div>Loading...</div>;
   if (!profile)
