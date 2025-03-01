@@ -36,7 +36,8 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/Moreinfo" element={<Moreinfo />} />
+        {/* <Route path="/Moreinfo" element={<Moreinfo />} /> */}
+        <Route path="/moreinfo/:careerTitle" element={<Moreinfo />} />
         <Route path="/Qnsec1" element={<Qnsec1 />} />
         <Route path="/Qnsec2" element={<Qnsec2 />} />
         <Route path="/Resultspage" element={<Resultspage />} />

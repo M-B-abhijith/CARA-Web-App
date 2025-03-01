@@ -12,7 +12,7 @@ const router = express.Router();
 // Routes
 // Use the authentication middleware where necessary
 router.post("/careercreate", authenticate, createOrUpdateCareerController);
-router.get("/fetchingcareer", fetchCareerController);
+router.get("/fetchingcareer/:title", fetchCareerController);
 
 // Export
 module.exports = router;

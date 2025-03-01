@@ -160,40 +160,35 @@ const createOrUpdateCareerController = async (req, res) => {
   
 // Fetch Career Controller
 const fetchCareerController = async (req, res) => {
-    console.log("inside fetchCareerController");
-  
-    try {
-        // const career = await Career.findOne({ title: req.params.title });
-        let title='Web Developer';
-        // let title='Database Administrator';
+  console.log("inside fetchCareerController");
 
-        // let title='test';
+  try {
+      const titleParam = decodeURIComponent(req.params.title); // Decode title from URL
+      console.log("Searching for:", titleParam);
 
-        const career = await Career.findOne({ title });
+      const career = await Career.findOne({ title: { $regex: `^${titleParam}$`, $options: "i" } }); 
 
+      if (!career) {
+          return res.status(404).send({
+              success: false,
+              message: "Career not found",
+          });
+      }
 
-        console.log(career);
-
-        if (!career) {
-            return res.status(404).send({
-                success: false,
-                message: "Career not found",
-            });
-        }
-
-        return res.status(200).send({
-            success: true,
-            career,
-        });
-    } catch (error) {
-        console.error("Error fetching career:", error);
-        return res.status(500).send({
-            success: false,
-            message: "Error in fetching career",
-            error,
-        });
-    }
+      return res.status(200).send({
+          success: true,
+          career,
+      });
+  } catch (error) {
+      console.error("Error fetching career:", error);
+      return res.status(500).send({
+          success: false,
+          message: "Error in fetching career",
+          error,
+      });
+  }
 };
+
 
 module.exports = {
   createOrUpdateCareerController,
