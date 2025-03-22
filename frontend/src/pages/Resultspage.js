@@ -44,6 +44,7 @@ function Resultspage() {
           throw new Error('Invalid response format');
         }
       } catch (err) {
+        
         setError(err.message);
       } finally {
         setLoading(false);
