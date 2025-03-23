@@ -6,45 +6,56 @@ import { useParams } from "react-router-dom";
 import roadmapsData from "../constants/roadmaps.json";
 
 const Moreinfo = () => {
-  const { careerTitle } = useParams(); 
-  console.log("it is available here",careerTitle);
+  const { careerTitle } = useParams();
   const [careerData, setCareerData] = useState(null);
   const [spotlightImage, setSpotlightImage] = useState(null);
-  // const careerTitle = "Web Developer"; // Set this dynamically if needed
 
   useEffect(() => {
-
     const encodedTitle = encodeURIComponent(careerTitle);
-    console.log("encoded titile is :",encodedTitle);
     axios
       .get(`http://localhost:5000/api/v1/careers/fetchingcareer/${encodedTitle}`)
-      // .get(`http://localhost:5000/api/v1/careers/fetchingcareer/`)
-
       .then((response) => setCareerData(response.data.career))
       .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  }, [careerTitle]);
 
   if (!careerData) {
     return <p>Loading...</p>;
   }
 
-
-
   // Function to find the roadmap image
   const getRoadmapImage = (title) => {
-    console.log("button clicked");
     const roadmap = roadmapsData.find((r) => r.title === title);
-    console.log("here the roadmap correpsonding is",roadmap);
-    return `https://lh3.googleusercontent.com/d/${roadmap.image}=s0`;
+    if (!roadmap) {
+      console.error(`Roadmap not found for title: ${title}`);
+      return null;
+    }
+    try {
+      return require(`../roadmaps/${roadmap.image}`);
+    } catch (error) {
+      console.error(`Failed to load image: ${roadmap.image}`, error);
+      return null;
+    }
   };
-
 
   return (
     <div className="container">
       <div className="enclosedcontainer">
         <header className="header">
           <h1>{careerData.title}</h1>
-          <Button variant="contained" sx={{ textTransform: "none" }}  onClick={() => setSpotlightImage(getRoadmapImage(careerData.title))}>Roadmap</Button>
+          <Button
+            variant="contained"
+            sx={{ textTransform: "none" }}
+            onClick={() => {
+              const imagePath = getRoadmapImage(careerData.title);
+              if (imagePath) {
+                setSpotlightImage(imagePath);
+              } else {
+                alert(`Roadmap image for "${careerData.title}" not found.`);
+              }
+            }}
+          >
+            Roadmap
+          </Button>
         </header>
 
         <div className="insidebox">
@@ -73,41 +84,40 @@ const Moreinfo = () => {
           )}
 
           {/* Styles */}
-      <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.8);
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          overflow-y: auto;
-          z-index: 1000;
-        }
+          <style jsx>{`
+            .modal-overlay {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0.8);
+              display: flex;
+              align-items: flex-start;
+              justify-content: center;
+              overflow-y: auto;
+              z-index: 1000;
+            }
 
-        .floating-image-container {
-          position: relative;
-          width: 55%;
-          max-width: 55vw;
-          text-align: center;
-          animation: fadeIn 0.3s ease-in-out;
-        }
+            .floating-image-container {
+              position: relative;
+              width: 55%;
+              max-width: 55vw;
+              text-align: center;
+              animation: fadeIn 0.3s ease-in-out;
+            }
 
-        .modal-image {
-          width: 100%;
-          height: auto;
-          display: block;
-        }
+            .modal-image {
+              width: 100%;
+              height: auto;
+              display: block;
+            }
 
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
-    
+            @keyframes fadeIn {
+              from { opacity: 0; transform: scale(0.95); }
+              to { opacity: 1; transform: scale(1); }
+            }
+          `}</style>
 
           <section className="section">
             <h2 className="subtitle">Key Responsibilities</h2>
@@ -168,7 +178,9 @@ const Moreinfo = () => {
           </section>
 
           <footer className="footer">
-            <Button variant="contained" color="primary" sx={{ textTransform: "none" }}>Find Jobs</Button>
+            <Button variant="contained" color="primary" sx={{ textTransform: "none" }}>
+              Find Jobs
+            </Button>
           </footer>
         </div>
       </div>

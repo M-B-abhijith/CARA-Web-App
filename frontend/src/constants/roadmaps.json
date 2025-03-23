@@ -1,172 +1,174 @@
+
 [
   {
     "id": 1,
     "title": "Applications Developer",
-    "image": "1VTR2-U1pPpUVa-8F_LMMhPHwVHnRN8u5"
+    "image": "Applications Developer-roadmap.jpg"
   },
   {
     "id": 2,
     "title": "Business Intelligence Analyst",
-    "image": "1ldFvgqltgicn8w1Xc6fL9G24nwKltIGK"
+    "image": "Business Intelligence Analyst-roadmap.jpg"
   },
   {
     "id": 3,
     "title": "Business Systems Analyst",
-    "image": "1q8u3SkA8g3Nsz3heQurAy97zx_cHdZOg"
+    "image": "Business Systems Analyst-roadmap.jpg"
   },
   {
     "id": 4,
     "title": "CRM Business Analyst",
-    "image": "1cIrFychyPplCwuEpTurN3EcVMy06bxxl"
+    "image": "CRM Business Analyst-roadmap.jpg"
   },
   {
     "id": 5,
     "title": "CRM Technical Developer",
-    "image": "13hw-yMFMQlWgC-3gxBYRUgoRVkHHeY-H"
+    "image": "CRM Technical Developer-roadmap.jpg"
   },
   {
     "id": 6,
     "title": "Data Architect",
-    "image": "1y0XWUeCYXXwJEbi1EURRJOu8M-vkoL_Z"
+    "image": "Data Architect-roadmap.jpg"
   },
   {
     "id": 7,
     "title": "Database Administrator",
-    "image": "1slAX4D_4mbSS8kuY_Wjx4KLBE6Y9lA44"
+    "image": "Database Administrator-roadmap.jpg"
   },
   {
     "id": 8,
     "title": "Database Developer",
-    "image": "1AifO9n_LiArfjcpbqsHUGBFIHx9ALuqA"
+    "image": "Database Developer-roadmap.jpg"
   },
   {
     "id": 9,
     "title": "Database Manager",
-    "image": "1Q_De89DePJ3plIs0b5BDv-z6c5NCA-I-"
+    "image": "Database Manager-roadmap.jpg"
   },
   {
     "id": 10,
     "title": "Design & UX",
-    "image": "164cYvTX4vfSCFKqNtvBgEFQYcOL6rNyQ"
+    "image": "Design & UX-roadmap.jpg"
   },
   {
     "id": 11,
     "title": "E-Commerce Analyst",
-    "image": "1tn4mqnh1DYIxl9lrUpcRoKdtBdVJIHR2"
+    "image": "E-Commerce Analyst Mastery-roadmap.jpg"
   },
   {
     "id": 12,
     "title": "Information Security Analyst",
-    "image": "1Mshwd90j3rPMlPKUUVqtLe9CkzM-lmTZ"
+    "image": "Information Security Analyst-roadmap.jpg"
   },
   {
     "id": 13,
-    "title": "Information Technology Auditor",
-    "image": "1EtPVjU-kbm3xCh06OazPeYHbD-IcjTDl"
+    "title": "Information Technology Auditor ",
+    "image": "Information Technology Auditor Mastery Plan-roadmap.jpg"
   },
   {
     "id": 14,
     "title": "Information Technology Manager",
-    "image": "1u8MBGvPuV_SULtXtVFtR9JqkHySxzXF5"
+    "image": "Information Technology Manager-roadmap.jpg"
   },
   {
     "id": 15,
     "title": "Mobile Applications Developer",
-    "image": "1BGJn8ZAmaz1j0DBSTeFdVdAWnyDBCZJx"
+    "image": "Mobile Applications Developer-roadmap.jpg"
   },
   {
     "id": 16,
     "title": "Network Engineer",
-    "image": "1hOXD_fwGLLl4MuxBb0przatOjZyXYlwq"
+    "image": "Network Engineer-roadmap.jpg"
   },
   {
     "id": 17,
     "title": "Network Security Administrator",
-    "image": "1tUWGl_ZcLge5IsQ8Ru0elpFTubYQ2oj5"
+    "image": "Network Security Administrator-roadmap.jpg"
   },
   {
     "id": 18,
     "title": "Network Security Engineer",
-    "image": "1SAOG4dN4QPPNyIJWPpGHgzQ9nF1FEYCz"
+    "image": "Network Security Engineer-roadmap.jpg"
   },
   {
     "id": 19,
     "title": "Portal Administrator",
-    "image": "1iJck0f6V2ocCXu9bfh4uWKgrKxR2f9vO"
+    "image": "Portal Administrator Mastery-roadmap.jpg"
   },
   {
     "id": 20,
     "title": "Programmer Analyst",
-    "image": "1ptxGRFUbBiuCx0o692Y3ny1UK7C5kGlp"
+    "image": "Programmer Analyst-roadmap.jpg"
   },
   {
     "id": 21,
     "title": "Project Manager",
-    "image": "1m0BKke_tV0Nz0g96hAY6jgvNW7PSvdGI"
+    "image": "Project Manager-roadmap.jpg"
   },
   {
     "id": 22,
     "title": "Quality Assurance Associate",
-    "image": "1q1iDUJyzxS1-kNsGRT7et4BRtmg3wB6m"
+    "image": "Quality Assurance Associate-roadmap.jpg"
   },
   {
     "id": 23,
     "title": "Software Developer",
-    "image": "1-fKbdMeclGvY6PjC1L9SgXMC73ihT5DK"
+    "image": "Software Developer-roadmap.jpg"
   },
   {
     "id": 24,
     "title": "Software Engineer",
-    "image": "13NZD-WHxVC_uV9HmhZMpmMsKqx69pP7X"
+    "image": "Software Engineer-roadmap.jpg"
   },
   {
     "id": 25,
     "title": "Software Quality Assurance (QA) / Testing",
-    "image": "1n0Os1m5xg2HVIwvSev8jQwOa6608H--g"
+    "image": "Software Quality Assurance (QA) _ Testing-roadmap.jpg"
   },
   {
     "id": 26,
     "title": "Software Systems Engineer",
-    "image": "1XglJMSpJDNAaqI0TbRFKvVQwcNwRBvpp"
+    "image": "Software Systems Engineer-roadmap.jpg"
   },
   {
     "id": 27,
     "title": "Solutions Architect",
-    "image": "1qJomY-r7YPEDAj4MW2sUofICkVaEfHlD"
+    "image": "Solutions Architect-roadmap.jpg"
   },
   {
     "id": 28,
     "title": "Systems Analyst",
-    "image": "17DqtyPAo_00lhm5iO6JWTJ4VN1R44Kpf"
+    "image": "Systems Analyst Expertise Development-roadmap.jpg"
   },
   {
     "id": 29,
     "title": "Systems Security Administrator",
-    "image": "1kqe2y9g-5u3pydvUHRWNl3lwdGjy7L1K"
+    "image": "Systems Security Administrator-roadmap.jpg"
   },
   {
     "id": 30,
     "title": "Technical Engineer",
-    "image": "11fmyxLdq9-PcwNITOOgSwyEDnduG85kq"
+    "image": "Technical Engineering-roadmap.jpg"
   },
   {
     "id": 31,
     "title": "Technical Services/Help Desk/Tech Support",
-    "image": "1Rs9twGndN2VVbG9pQNSGfGd6MSJRNRh2"
+    "image": "Technical Services_Help Desk_Tech Support-roadmap.jpg"
   },
   {
     "id": 32,
     "title": "Technical Support",
-    "image": "1cs9CYP5xMGGfVuaXmYMnNkt0FR4pQpbT"
+    "image": "Technical Support-roadmap.jpg"
   },
   {
     "id": 33,
     "title": "UX Designer",
-    "image": "13PJjnrGTCeu-yRcT3jeq0JDXa2VeWGMX"
+    "image": "UX Designer-roadmap.jpg"
   },
   {
     "id": 34,
     "title": "Web Developer",
-    "image": "1XC9E1aT11RbJiqMe4iSkGpm8HVrIME8T"
+    "image": "Web Developer-roadmap.jpg(1)"
   }
+  
 ]
