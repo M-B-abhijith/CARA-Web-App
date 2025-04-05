@@ -82,9 +82,9 @@ input_key_mapping = {
     'Interested_Type_of_Books': 'Interested Type of Books',
     'Salary_Range_Expected': 'Salary Range Expected',
     'In_a_Relationship?': 'In a Realtionship?',
-    'Gentle_or_Tuff_behaviour?': 'Gentle or Tuff behaviour?',
+    'Gentle_or_Tough_behaviour?': 'Gentle or Tuff behaviour?',
     'Management_or_Technical': 'Management or Technical',
-    'Salary/work': 'Salary/work',
+    'What_do_you_value_most_in_a_job?': 'Salary/work',
     'Hard/smart_worker': 'hard/smart worker',
     'Worked_in_teams_ever?': 'worked in teams ever?',
     'Introvert': 'Introvert'
@@ -181,10 +181,19 @@ def predict():
 
         top_probabilities = probabilities[sorted_indices].round(3).tolist()
 
+        # Optional: Normalize top N probabilities
+        normalized_probabilities = (probabilities[sorted_indices] / probabilities[sorted_indices].sum()).tolist()
+        
+        # response = {
+        #     'predicted_roles': top_predictions.tolist(),
+        #     'probabilities': top_probabilities
+        # }
+
         response = {
             'predicted_roles': top_predictions.tolist(),
-            'probabilities': top_probabilities
+            'probabilities': normalized_probabilities
         }
+
 
 
         print("\nthe response is :\n",response)

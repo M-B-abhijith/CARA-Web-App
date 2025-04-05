@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
 import "./Moreinfo.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import roadmapsData from "../constants/roadmaps.json";
 
 const Moreinfo = () => {
   const { careerTitle } = useParams();
   const [careerData, setCareerData] = useState(null);
   const [spotlightImage, setSpotlightImage] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const encodedTitle = encodeURIComponent(careerTitle);
@@ -22,7 +23,6 @@ const Moreinfo = () => {
     return <p>Loading...</p>;
   }
 
-  // Function to find the roadmap image
   const getRoadmapImage = (title) => {
     const roadmap = roadmapsData.find((r) => r.title === title);
     if (!roadmap) {
@@ -59,22 +59,25 @@ const Moreinfo = () => {
         </header>
 
         <div className="insidebox">
-          <section className="section">
-            <h2 className="subtitle">Job Overview</h2>
-            <p>{careerData.jobOverview}</p>
-          </section>
+          {careerData.jobOverview && (
+            <section className="section">
+              <h2 className="subtitle">Job Overview</h2>
+              <p>{careerData.jobOverview}</p>
+            </section>
+          )}
 
-          <section className="section">
-            <h2 className="subtitle">Average Salary</h2>
-            {Object.entries(careerData.salary).map(([level, amount]) => (
-              <div className="salarybox" key={level}>
-                <p>{level.replace(/([A-Z])/g, " $1").trim()} Salary</p>
-                <p>{amount}</p>
-              </div>
-            ))}
-          </section>
+          {careerData.salary && Object.keys(careerData.salary).length > 0 && (
+            <section className="section">
+              <h2 className="subtitle">Average Salary</h2>
+              {Object.entries(careerData.salary).map(([level, amount]) => (
+                <div className="salarybox" key={level}>
+                  <p>{level.replace(/([A-Z])/g, " $1").trim()} Salary</p>
+                  <p>{amount}</p>
+                </div>
+              ))}
+            </section>
+          )}
 
-          {/* Roadmap Spotlight Modal */}
           {spotlightImage && (
             <div className="modal-overlay" onClick={() => setSpotlightImage(null)}>
               <div className="floating-image-container" onClick={(e) => e.stopPropagation()}>
@@ -83,7 +86,6 @@ const Moreinfo = () => {
             </div>
           )}
 
-          {/* Styles */}
           <style jsx>{`
             .modal-overlay {
               position: fixed;
@@ -119,66 +121,104 @@ const Moreinfo = () => {
             }
           `}</style>
 
-          <section className="section">
-            <h2 className="subtitle">Key Responsibilities</h2>
-            <ul className="list">
-              {careerData.responsibilities.map((item, index) => (
-                <li className="list-item" key={index}>{item}</li>
-              ))}
-            </ul>
-          </section>
+          {careerData.responsibilities?.length > 0 && (
+            <section className="section">
+              <h2 className="subtitle">Key Responsibilities</h2>
+              <ul className="list">
+                {careerData.responsibilities.map((item, index) => (
+                  <li className="list-item" key={index}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-          <section className="section">
-            <h2 className="subtitle">Required Tech Stack</h2>
-            {Object.entries(careerData.techStack).map(([category, items]) => (
-              <div key={category}>
-                <p><strong>{category.charAt(0).toUpperCase() + category.slice(1)}:</strong> {items.join(", ")}</p>
-              </div>
-            ))}
-          </section>
-
-          <section className="section">
-            <h2 className="subtitle">Educational Background & Certifications</h2>
-            <p><strong>Degree:</strong> {careerData.education.degree}</p>
-            <p><strong>Certifications:</strong></p>
-            <ul className="list">
-              {careerData.education.certifications.map((cert, index) => (
-                <li className="list-item" key={index}>{cert}</li>
+          {careerData.techStack && Object.keys(careerData.techStack).length > 0 && (
+            <section className="section">
+              <h2 className="subtitle">Required Tech Stack</h2>
+              {Object.entries(careerData.techStack).map(([category, items]) => (
+                items.length > 0 && (
+                  <div key={category}>
+                    <p>
+                      <strong>{category.charAt(0).toUpperCase() + category.slice(1)}:</strong>{" "}
+                      {items.join(", ")}
+                    </p>
+                  </div>
+                )
               ))}
-            </ul>
-          </section>
+            </section>
+          )}
 
-          <section className="section">
-            <h2 className="subtitle">Career Growth Opportunities</h2>
-            <p>{careerData.careerGrowth.join(" → ")}</p>
-          </section>
+          {careerData.education && (
+            <section className="section">
+              <h2 className="subtitle">Educational Background & Certifications</h2>
+              {careerData.education.degree && (
+                <p><strong>Degree:</strong> {careerData.education.degree}</p>
+              )}
+              {careerData.education.certifications?.length > 0 && (
+                <>
+                  <p><strong>Certifications:</strong></p>
+                  <ul className="list">
+                    {careerData.education.certifications.map((cert, index) => (
+                      <li className="list-item" key={index}>{cert}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </section>
+          )}
 
-          <section className="section">
-            <h2 className="subtitle">Pros</h2>
-            <ul className="list">
-              {careerData.prosAndCons.pros.map((pro, index) => (
-                <li className="list-item" key={index}>{pro}</li>
-              ))}
-            </ul>
-            <h2 className="subtitle">Cons</h2>
-            <ul className="list">
-              {careerData.prosAndCons.cons.map((con, index) => (
-                <li className="list-item" key={index}>{con}</li>
-              ))}
-            </ul>
-          </section>
+          {careerData.careerGrowth?.length > 0 && (
+            <section className="section">
+              <h2 className="subtitle">Career Growth Opportunities</h2>
+              <p>{careerData.careerGrowth.join(" → ")}</p>
+            </section>
+          )}
 
-          <section className="section">
-            <h2 className="subtitle">Future Trends</h2>
-            <ul className="list">
-              {careerData.futureTrends.map((trend, index) => (
-                <li className="list-item" key={index}>{trend}</li>
-              ))}
-            </ul>
-          </section>
+          {(careerData.prosAndCons?.pros?.length > 0 || careerData.prosAndCons?.cons?.length > 0) && (
+            <section className="section">
+              {careerData.prosAndCons?.pros?.length > 0 && (
+                <>
+                  <h2 className="subtitle">Pros</h2>
+                  <ul className="list">
+                    {careerData.prosAndCons.pros.map((pro, index) => (
+                      <li className="list-item" key={index}>{pro}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {careerData.prosAndCons?.cons?.length > 0 && (
+                <>
+                  <h2 className="subtitle">Cons</h2>
+                  <ul className="list">
+                    {careerData.prosAndCons.cons.map((con, index) => (
+                      <li className="list-item" key={index}>{con}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </section>
+          )}
+
+          {careerData.futureTrends?.length > 0 && (
+            <section className="section">
+              <h2 className="subtitle">Future Trends</h2>
+              <ul className="list">
+                {careerData.futureTrends.map((trend, index) => (
+                  <li className="list-item" key={index}>{trend}</li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <footer className="footer">
-            <Button variant="contained" color="primary" sx={{ textTransform: "none" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ textTransform: "none" }}
+              onClick={() =>
+                navigate("/Jobsscrapped", { state: { careerTitle: careerData.title } })
+              }
+            >
               Find Jobs
             </Button>
           </footer>

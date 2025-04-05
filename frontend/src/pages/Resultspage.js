@@ -82,9 +82,28 @@ function Resultspage() {
       <div className="results-card">
         <h2>Your career opportunities are</h2>
 
-        {predictions.map((career, index) => {
+        {/* {predictions.map((career, index) => {
           const percentage = Math.round(probabilities[index] * 100);
           // Use career as roadmap.title for the link
+          const roadmap = { title: career };
+
+          return (
+            <div className="career-item" key={career}>
+              <div className="career-text">
+                <span>{career} ({percentage}%)</span>
+              </div>
+              <Link
+                to={`/moreinfo/${encodeURIComponent(roadmap.title)}`}
+                className="career-link"
+              >
+                More info
+              </Link>
+            </div>
+          );
+        })} */}
+
+        {predictions.map((career, index) => {
+          const percentage = (probabilities[index] * 100).toFixed(2);
           const roadmap = { title: career };
 
           return (

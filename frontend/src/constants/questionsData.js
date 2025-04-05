@@ -178,7 +178,7 @@ export const questions = [
       ]
   },
   {
-      questionText: "Salary Range Expected",
+      questionText: "What drives your career decisions?",
       options: [
           "salary",
           "work"
@@ -192,7 +192,7 @@ export const questions = [
       ]
   },
   {
-      questionText: "Gentle or Tuff behaviour?",
+      questionText: "Gentle or Tough behaviour?",
       options: [
           "gentle",
           "stubborn"
@@ -206,7 +206,7 @@ export const questions = [
       ]
   },
   {
-      questionText: "Salary/work",
+      questionText: "What do you value most in a job?",
       options: [
           "salary",
           "work"
