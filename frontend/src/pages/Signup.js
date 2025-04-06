@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
-import { Button } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom'; // Import navigate for redirection
-import axios from 'axios'; // Import axios for making API requests
+import { Button, Snackbar } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Signup.css'; 
 
 function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
   // Handle sign-up form submission
   const handleSignUp = async () => {
+    // Check if all fields are filled
+    if (!username || !email || !password) {
+      setErrorMessage('Please fill in all fields');
+      setOpen(true);
+      return;
+    }
+
     try {
-      // Replace with your backend signup API endpoint
       const response = await axios.post('http://localhost:5000/api/v1/auth/register', {
         username,
         email,
@@ -23,11 +31,22 @@ function SignUp() {
 
       if (response.status === 201) {
         console.log('Sign-up successful');
-        navigate('/login'); // Redirect to login page after successful registration
+        navigate('/login');
       }
     } catch (error) {
       console.error('Sign-up failed', error);
+      if (error.response && error.response.data) {
+        setErrorMessage(error.response.data.message || 'Something went wrong. Please try again.');
+      } else {
+        setErrorMessage('An unexpected error occurred. Please try again.');
+      }
+      setOpen(true);
     }
+  };
+
+  // Close the Snackbar
+  const handleCloseSnackbar = () => {
+    setOpen(false);
   };
 
   return (
@@ -72,6 +91,15 @@ function SignUp() {
           <Link to="/login" className="loginLink">Log in</Link>
         </div>
       </div>
+
+      {/* Snackbar for error message */}
+      <Snackbar
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        message={errorMessage}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
     </div>
   );
 }
