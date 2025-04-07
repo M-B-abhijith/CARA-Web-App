@@ -13,13 +13,24 @@ function JobScrape() {
     // Get careerTitle from navigation state, default to "Application Developer" if not provided
     const careerTitle = location.state?.careerTitle || "Application Developer";
 
-    // Function to parse "days ago" strings into a number of days
+    // Function to parse "days ago" or "hours ago" strings into a comparable value
     const parseDaysAgo = (dateString) => {
         if (!dateString) return Infinity; // Fallback for missing dates
         const lowerDate = dateString.toLowerCase().trim();
-        if (lowerDate === "posted today" || lowerDate === "today") return 0;
-        const match = lowerDate.match(/(\d+)\s*days?\s*ago/);
-        return match ? parseInt(match[1], 10) : Infinity; // Use Infinity for unparseable dates
+
+        // Handle "posted today", "today", or "24h" cases (within 24 hours)
+        if (lowerDate === "posted today" || lowerDate === "today" || lowerDate === "24h") return 0;
+
+        // Handle "X hours ago" (e.g., "5 hours ago")
+        const hoursMatch = lowerDate.match(/(\d+)\s*h(?:ours?)?\s*ago/);
+        if (hoursMatch) {
+            const hours = parseInt(hoursMatch[1], 10);
+            return hours <= 24 ? 0 : hours / 24; // Treat <= 24h as "today" (0), else convert to days
+        }
+
+        // Handle "X days ago"
+        const daysMatch = lowerDate.match(/(\d+)\s*days?\s*ago/);
+        return daysMatch ? parseInt(daysMatch[1], 10) : Infinity; // Use Infinity for unparseable dates
     };
 
     useEffect(() => {
@@ -30,11 +41,20 @@ function JobScrape() {
                 });
                 console.log("API Response:", response.data);
 
-                // Sort jobs by recency
+                // Sort jobs: "24h" or "today" first, then by days ago
                 const sortedJobs = (response.data.jobs || []).sort((a, b) => {
                     const daysAgoA = parseDaysAgo(a.date);
                     const daysAgoB = parseDaysAgo(b.date);
-                    return daysAgoA - daysAgoB; // Ascending order (most recent first)
+
+                    // If both are within 24h (0), keep original order or sort by title if desired
+                    if (daysAgoA === 0 && daysAgoB === 0) return 0;
+
+                    // Prioritize "0" (within 24h) over anything else
+                    if (daysAgoA === 0) return -1;
+                    if (daysAgoB === 0) return 1;
+
+                    // Otherwise, sort by days ago in ascending order
+                    return daysAgoA - daysAgoB;
                 });
 
                 setJobs(sortedJobs);

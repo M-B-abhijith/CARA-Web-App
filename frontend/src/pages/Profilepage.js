@@ -199,7 +199,7 @@ const handleDownloadPDF = () => {
 
   // Hide the buttons before capturing the PDF
   downloadButton.style.display = "none";
-  editButton.style.display = "none";
+  // editButton.style.display = "none";
 
   html2canvas(profileDetails, { scale: 2 }).then((canvas) => {
     const imgData = canvas.toDataURL("image/png");
@@ -212,7 +212,7 @@ const handleDownloadPDF = () => {
 
     // Restore button visibility after capturing
     downloadButton.style.display = "flex";
-    editButton.style.display = "block";
+    // editButton.style.display = "block";
   });
 };
 

@@ -28,6 +28,8 @@ function Login() {
         } else {
           navigate('/choosingpage'); // Redirect normal users to choosing page
         }
+
+        window.location.reload();
       }
     } catch (error) {
       console.error('Login failed', error);
