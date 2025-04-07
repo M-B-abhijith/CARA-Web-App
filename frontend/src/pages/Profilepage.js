@@ -216,7 +216,37 @@ const handleDownloadPDF = () => {
   });
 };
 
-  if (isLoading) return <div>Loading...</div>;
+  // if (isLoading) return <div>Loading...</div>;
+
+  if (isLoading) {
+    return (
+      <div className="loading-wrapper">
+        <div className="spinner"></div>
+        <style jsx>{`
+          .loading-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+          }
+          
+          .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #e0e0e0;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+          }
+  
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   if (!profile)
     return <SetupProfilePrompt onCreateProfile={handleCreateProfile} />;
 

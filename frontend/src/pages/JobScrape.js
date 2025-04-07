@@ -10,7 +10,6 @@ function JobScrape() {
     const [error, setError] = useState(null);
     const location = useLocation();
 
-    // Get careerTitle from navigation state, default to "Application Developer" if not provided
     const careerTitle = location.state?.careerTitle || "Application Developer";
 
     // Function to parse "days ago" or "hours ago" strings into a comparable value
@@ -21,7 +20,7 @@ function JobScrape() {
         // Handle "posted today", "today", or "24h" cases (within 24 hours)
         if (lowerDate === "posted today" || lowerDate === "today" || lowerDate === "24h") return 0;
 
-        // Handle "X hours ago" (e.g., "5 hours ago")
+        // Handle "X hours ago" 
         const hoursMatch = lowerDate.match(/(\d+)\s*h(?:ours?)?\s*ago/);
         if (hoursMatch) {
             const hours = parseInt(hoursMatch[1], 10);
@@ -67,7 +66,7 @@ function JobScrape() {
         };
 
         fetchJobs();
-    }, [careerTitle]); // Re-run when careerTitle changes
+    }, [careerTitle]); 
 
     return (
         <div className="job-listings-container">

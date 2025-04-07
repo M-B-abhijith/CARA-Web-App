@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './pages/Navbar'; 
 import Home from './pages/Home';     
@@ -18,9 +18,20 @@ import Contactuspage from './pages/Contactuspage';
 import ProfileForm from './pages/Profileformpage';
 import CareerForm from './pages/Careerformpage';
 import JobFormPage from './pages/jobformpage';
-import RoadmapPage from './pages/RoadmapPage'
+import RoadmapPage from './pages/RoadmapPage';
 import Dashboardpage from './pages/Dashboardpage';
 import Jobsscrapped from './pages/JobScrape';
+
+// ScrollToTop component to reset scroll position on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top of the page
+  }, [pathname]); // Trigger on every route change
+
+  return null; // This component doesn't render anything
+}
 
 const AppContent = () => {
   const location = useLocation(); // Get the current route location
@@ -37,7 +48,6 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/Moreinfo" element={<Moreinfo />} /> */}
         <Route path="/moreinfo/:careerTitle" element={<Moreinfo />} />
         <Route path="/Qnsec1" element={<Qnsec1 />} />
         <Route path="/Qnsec2" element={<Qnsec2 />} />
@@ -51,11 +61,10 @@ const AppContent = () => {
         <Route path="/Contactuspage" element={<Contactuspage />} />
         <Route path="/ProfileForm" element={<ProfileForm />} />
         <Route path="/Dashboardpage" element={<Dashboardpage />} />
-        <Route path="/CareerForm" element={< CareerForm/>} />
-        <Route path="/JobFormPage" element={< JobFormPage/>} />
-        <Route path="/RoadmapPage" element={< RoadmapPage/>} />
-        <Route path="/Jobsscrapped" element={< Jobsscrapped/>} />
-
+        <Route path="/CareerForm" element={<CareerForm />} />
+        <Route path="/JobFormPage" element={<JobFormPage />} />
+        <Route path="/RoadmapPage" element={<RoadmapPage />} />
+        <Route path="/Jobsscrapped" element={<Jobsscrapped />} />
       </Routes>
     </>
   );
@@ -64,6 +73,7 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* Add ScrollToTop here */}
       <AppContent />
     </Router>
   );
